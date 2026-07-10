@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: aibi-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aibi_db
+    username: aibi_user
+    password: aibi_secret_2024
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate          # Schema managed by init.sql, not Hibernate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# ── JWT Configuration ──
+app:
+  jwt:
+    secret: "AIBI-DSS-JWT-SECRET-KEY-CHANGE-IN-PRODUCTION-2024-MIN-256-BITS!!"
+    expiration-ms: 86400000       # 24 hours
+
+# ── AI Service URL ──
+  ai-service:
+    base-url: http://localhost:8000
+
+# ── CORS ──
+  cors:
+    allowed-origins: http://localhost:5173
+
+# ── Logging ──
+logging:
+  level:
+    com.aibi: DEBUG
+    org.springframework.security: INFO

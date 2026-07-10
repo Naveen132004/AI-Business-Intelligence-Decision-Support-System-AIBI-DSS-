@@ -1,0 +1,36 @@
+# ── IDE ──
+.idea/
+.vscode/
+*.iml
+*.iws
+
+# ── Java / Gradle ──
+backend/build/
+backend/.gradle/
+backend/bin/
+*.class
+*.jar
+!backend/gradle/wrapper/gradle-wrapper.jar
+
+# ── Node / React ──
+frontend/node_modules/
+frontend/dist/
+
+# ── Python ──
+ai-service/__pycache__/
+ai-service/.venv/
+ai-service/venv/
+*.pyc
+*.pyo
+
+# ── Environment ──
+.env
+.env.local
+.env.*.local
+
+# ── Docker ──
+pgdata/
+
+# ── OS ──
+.DS_Store
+Thumbs.db

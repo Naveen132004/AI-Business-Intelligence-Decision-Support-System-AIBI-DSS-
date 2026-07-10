@@ -1,0 +1,17 @@
+# AIBI-DSS AI Service Dependencies
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+pydantic-settings==2.9.1
+
+# Database
+psycopg2-binary==2.9.10
+sqlalchemy==2.0.41
+
+# AI / ML (will be used in Phases 7-9)
+# prophet==1.1.6
+# shap==0.46.0
+# sentence-transformers==4.1.0
+# google-genai==1.20.0
+# pgvector==0.4.0
+# numpy==2.2.6
+# pandas==2.3.0
