@@ -6,7 +6,7 @@ spring:
     name: aibi-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/aibi_db
+    url: jdbc:postgresql://localhost:5433/aibi_db
     username: aibi_user
     password: aibi_secret_2024
     driver-class-name: org.postgresql.Driver
