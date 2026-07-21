@@ -206,5 +206,3 @@ This project is developed as a **Final Year Project (Computer Science & Business
 * **Included Scope**: Enterprise Auth, Sales, Inventory, Order Management, Customer & Supplier CRM, Real-time Dashboard, plus 3 deep AI/ML capabilities (Forecasting, Explainable Scoring, and RAG Assistant).
 * **Out of Scope**: Multi-tenancy, real-time payment gateway processing, native mobile apps.
 
----
-*Developed with ❤️ for intelligent enterprise decision support.*
