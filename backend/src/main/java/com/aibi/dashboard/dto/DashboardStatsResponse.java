@@ -12,4 +12,5 @@ public class DashboardStatsResponse {
     private long activeProducts;
     private BigDecimal totalRevenue;
     private long totalCustomers;
+    private BigDecimal totalExpenses;
 }

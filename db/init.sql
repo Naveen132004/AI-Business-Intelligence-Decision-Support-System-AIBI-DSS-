@@ -246,3 +246,26 @@ INSERT INTO inventory (product_id, quantity_in_stock, reorder_level, supplier_id
 (8, 200, 50, 2, NOW() - INTERVAL '3 days'),    -- Copy Paper
 (9,   2, 5,  2, NOW() - INTERVAL '45 days'),   -- Whiteboard (LOW STOCK)
 (10, 30, 10, 2, NOW() - INTERVAL '8 days');    -- Wireless Presenter
+
+-- ── Expenses ────────────────────────────────────────────────
+INSERT INTO expenses (category, amount, description, expense_date, recorded_by) VALUES
+('Salaries',          350000.00, 'Monthly salaries — January',        '2026-01-31', 1),
+('Salaries',          350000.00, 'Monthly salaries — February',       '2026-02-28', 1),
+('Salaries',          350000.00, 'Monthly salaries — March',          '2026-03-31', 1),
+('Salaries',          350000.00, 'Monthly salaries — April',          '2026-04-30', 1),
+('Salaries',          350000.00, 'Monthly salaries — May',            '2026-05-31', 1),
+('Salaries',          350000.00, 'Monthly salaries — June',           '2026-06-30', 1),
+('Office Supplies',    12500.00, 'Printer cartridges and stationery', '2026-01-15', 1),
+('Office Supplies',     8900.00, 'Cleaning supplies',                 '2026-03-10', 1),
+('Office Supplies',    15200.00, 'Ergonomic accessories',             '2026-05-20', 1),
+('Software Licenses',  54999.00, 'Adobe Creative Cloud — annual',     '2026-01-05', 1),
+('Software Licenses',   8999.00, 'Microsoft 365 — quarterly',         '2026-02-01', 1),
+('Software Licenses',  35000.00, 'AWS hosting — Q1',                  '2026-03-01', 1),
+('Software Licenses',  35000.00, 'AWS hosting — Q2',                  '2026-06-01', 1),
+('Marketing',          45000.00, 'Google Ads — January campaign',     '2026-01-20', 1),
+('Marketing',          32000.00, 'Social media marketing — March',    '2026-03-15', 1),
+('Marketing',          28000.00, 'Email campaign tool subscription',  '2026-04-10', 1),
+('Marketing',          55000.00, 'Trade show booth — May expo',       '2026-05-05', 1),
+('Utilities',           4500.00, 'Electricity — January',             '2026-01-25', 1),
+('Utilities',           4800.00, 'Electricity — March',               '2026-03-25', 1),
+('Utilities',           1500.00, 'Internet — monthly',                '2026-02-15', 1);

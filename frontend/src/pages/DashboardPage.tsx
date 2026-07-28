@@ -10,6 +10,7 @@ import {
   ArrowUpRight,
   AlertTriangle,
   Warehouse,
+  Receipt,
 } from "lucide-react";
 import {
   AreaChart,
@@ -121,6 +122,14 @@ export default function DashboardPage() {
       icon: Users,
       color: "text-info",
       bgColor: "bg-info/10",
+    },
+    {
+      label: "Total Expenses",
+      value: stats?.totalExpenses ?? 0,
+      format: (v: number) => formatCurrency(v),
+      icon: Receipt,
+      color: "text-danger",
+      bgColor: "bg-danger/10",
     },
   ];
 

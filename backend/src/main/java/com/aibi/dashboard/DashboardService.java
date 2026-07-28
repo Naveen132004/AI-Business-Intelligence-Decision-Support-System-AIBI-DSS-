@@ -3,6 +3,7 @@ package com.aibi.dashboard;
 import com.aibi.customer.CustomerRepository;
 import com.aibi.dashboard.dto.DashboardStatsResponse;
 import com.aibi.dashboard.dto.SalesChartDataPoint;
+import com.aibi.expense.ExpenseRepository;
 import com.aibi.order.OrderRepository;
 import com.aibi.order.dto.OrderResponse;
 import com.aibi.order.OrderService;
@@ -22,6 +23,7 @@ public class DashboardService {
     private final ProductRepository productRepository;
     private final CustomerRepository customerRepository;
     private final OrderService orderService;
+    private final ExpenseRepository expenseRepository;
 
     public DashboardStatsResponse getStats() {
         return DashboardStatsResponse.builder()
@@ -29,6 +31,7 @@ public class DashboardService {
                 .activeProducts(productRepository.countByIsActiveTrue())
                 .totalRevenue(orderRepository.getTotalRevenue())
                 .totalCustomers(customerRepository.count())
+                .totalExpenses(expenseRepository.sumTotalExpenses())
                 .build();
     }
 

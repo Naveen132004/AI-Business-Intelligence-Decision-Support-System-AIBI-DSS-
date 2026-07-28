@@ -105,6 +105,7 @@ export interface DashboardStats {
   activeProducts: number;
   totalRevenue: number;
   totalCustomers: number;
+  totalExpenses: number;
 }
 
 export interface SalesChartDataPoint {
@@ -173,6 +174,43 @@ export interface StockAdjustmentRequest {
   quantity: number;
 }
 
+// ── Expense Types ────────────────────────────────────────────
+
+export interface ExpenseResponse {
+  id: number;
+  category: string;
+  amount: number;
+  description: string | null;
+  expenseDate: string;
+  recordedByName: string | null;
+  createdAt: string;
+}
+
+export interface CreateExpenseRequest {
+  category: string;
+  amount: number;
+  description?: string;
+  expenseDate: string;
+}
+
+export interface UpdateExpenseRequest {
+  category: string;
+  amount: number;
+  description?: string;
+  expenseDate: string;
+}
+
+export interface CategoryBreakdown {
+  category: string;
+  total: number;
+  count: number;
+}
+
+export interface ExpenseChartDataPoint {
+  month: string;
+  total: number;
+}
+
 // ── Aliases (used by pages & API services) ───────────────────
 
 export type Product = ProductResponse;
@@ -182,3 +220,4 @@ export type OrderItem = OrderItemResponse;
 export type SalesChartData = SalesChartDataPoint;
 export type Supplier = SupplierResponse;
 export type InventoryItem = InventoryResponse;
+export type Expense = ExpenseResponse;

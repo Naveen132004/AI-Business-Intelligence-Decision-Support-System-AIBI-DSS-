@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   Warehouse,
   Truck,
+  Receipt,
   UserCircle,
   ChevronLeft,
   ChevronRight,
@@ -20,6 +21,7 @@ const navItems = [
   { label: "Orders", path: "/orders", icon: ShoppingCart },
   { label: "Inventory", path: "/inventory", icon: Warehouse },
   { label: "Suppliers", path: "/suppliers", icon: Truck },
+  { label: "Expenses", path: "/expenses", icon: Receipt },
   { label: "Profile", path: "/profile", icon: UserCircle },
 ];
 
