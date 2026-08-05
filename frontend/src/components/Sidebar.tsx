@@ -9,6 +9,9 @@ import {
   Warehouse,
   Truck,
   Receipt,
+  TrendingUp,
+  HeartPulse,
+  Bot,
   UserCircle,
   ChevronLeft,
   ChevronRight,
@@ -22,6 +25,9 @@ const navItems = [
   { label: "Inventory", path: "/inventory", icon: Warehouse },
   { label: "Suppliers", path: "/suppliers", icon: Truck },
   { label: "Expenses", path: "/expenses", icon: Receipt },
+  { label: "Forecast", path: "/forecast", icon: TrendingUp },
+  { label: "Health", path: "/health-score", icon: HeartPulse },
+  { label: "Assistant", path: "/assistant", icon: Bot },
   { label: "Profile", path: "/profile", icon: UserCircle },
 ];
 

@@ -26,10 +26,12 @@ async def health():
     }
 
 
-# ── Route registration (will be added module by module) ──
-# from app.forecasting.router import router as forecast_router
-# from app.rag.router import router as rag_router
-# from app.health_score.router import router as health_score_router
-# app.include_router(forecast_router, prefix="/api/forecast", tags=["Forecasting"])
-# app.include_router(rag_router, prefix="/api/assistant", tags=["RAG Assistant"])
-# app.include_router(health_score_router, prefix="/api/health-score", tags=["Health Score"])
+# ── Route registration ──
+from app.forecasting.router import router as forecast_router
+app.include_router(forecast_router, prefix="/api/forecast", tags=["Forecasting"])
+
+from app.health_score.router import router as health_score_router
+app.include_router(health_score_router, prefix="/api/health-score", tags=["Health Score"])
+
+from app.rag.router import router as rag_router
+app.include_router(rag_router, prefix="/api/assistant", tags=["RAG Assistant"])

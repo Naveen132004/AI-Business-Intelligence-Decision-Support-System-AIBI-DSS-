@@ -1,1 +1,2 @@
-# Placeholder — RAG Business Assistant module (Phase 9)
+# RAG Business Assistant module
+from app.rag.router import router

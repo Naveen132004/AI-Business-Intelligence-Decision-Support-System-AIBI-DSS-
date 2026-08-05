@@ -211,6 +211,69 @@ export interface ExpenseChartDataPoint {
   total: number;
 }
 
+// ── Forecast Types ───────────────────────────────────────────
+
+export interface ForecastDataPoint {
+  month: string;
+  actual: number | null;
+  predicted: number;
+  lower: number;
+  upper: number;
+}
+
+export interface ModelMetrics {
+  mae: number;
+  mape: number;
+  data_points: number;
+  forecast_months: number;
+}
+
+export interface ComponentImportance {
+  name: string;
+  importance: number;
+  description: string;
+}
+
+export interface ForecastResponse {
+  id: number;
+  forecast_type: string;
+  generated_at: string;
+  period_start: string;
+  period_end: string;
+  forecast_data: ForecastDataPoint[];
+  model_metrics: ModelMetrics;
+  shap_summary: { components: ComponentImportance[] };
+  empty?: boolean;
+  message?: string;
+}
+
+// ── Health Score Types ───────────────────────────────────────
+
+export interface ComponentScore {
+  name: string;
+  score: number;
+  weight: number;
+  explanation: string;
+}
+
+export interface HealthRecommendation {
+  category: string;
+  priority: "HIGH" | "MEDIUM" | "LOW";
+  title: string;
+  description: string;
+}
+
+export interface HealthScoreResponse {
+  id: number;
+  overall_score: number;
+  component_scores: ComponentScore[];
+  explanations: string[];
+  recommendations: HealthRecommendation[];
+  generated_at: string;
+  empty?: boolean;
+  message?: string;
+}
+
 // ── Aliases (used by pages & API services) ───────────────────
 
 export type Product = ProductResponse;
@@ -221,3 +284,31 @@ export type SalesChartData = SalesChartDataPoint;
 export type Supplier = SupplierResponse;
 export type InventoryItem = InventoryResponse;
 export type Expense = ExpenseResponse;
+
+// ── RAG Assistant Types ─────────────────────────────────────
+
+export interface AssistantSource {
+  source_type: string;
+  source_id: string | null;
+  content: string;
+  score: number;
+}
+
+export interface AssistantResponse {
+  answer: string;
+  sources: AssistantSource[];
+  chunks_in_db: number;
+}
+
+export interface AssistantSyncResponse {
+  message: string;
+  chunks_created: number;
+  chunks_deleted: number;
+}
+
+export interface AssistantStatus {
+  chunks_in_db: number;
+  last_synced: string | null;
+  source_breakdown: Record<string, number>;
+}
+

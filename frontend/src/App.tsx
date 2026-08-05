@@ -13,6 +13,9 @@ import OrdersPage from "./pages/OrdersPage";
 import InventoryPage from "./pages/InventoryPage";
 import SuppliersPage from "./pages/SuppliersPage";
 import ExpensesPage from "./pages/ExpensesPage";
+import ForecastPage from "./pages/ForecastPage";
+import HealthScorePage from "./pages/HealthScorePage";
+import AssistantPage from "./pages/AssistantPage";
 
 function App() {
   return (
@@ -89,6 +92,36 @@ function App() {
             <ProtectedRoute>
               <AppLayout>
                 <ExpensesPage />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/forecast"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <ForecastPage />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/health-score"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <HealthScorePage />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/assistant"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <AssistantPage />
               </AppLayout>
             </ProtectedRoute>
           }

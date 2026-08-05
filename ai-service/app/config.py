@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "postgresql://aibi_user:aibi_secret_2024@localhost:5432/aibi_db"
+    DATABASE_URL: str = "postgresql://aibi_user:aibi_secret_2024@localhost:5433/aibi_db"
 
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:8080"]

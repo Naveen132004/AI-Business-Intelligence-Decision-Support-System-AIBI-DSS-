@@ -47,7 +47,7 @@ The platform features a modern, responsive **dark-themed Single Page Application
 | :--- | :--- |
 | **Frontend** | React 19, TypeScript, Vite, Tailwind CSS v4, Lucide Icons, Recharts |
 | **Backend API** | Java 17/21, Spring Boot 3.4, Spring Security, Spring Data JPA, JWT Authentication |
-| **AI Microservice**| Python 3.10+, FastAPI, Uvicorn, Prophet (Time-series Forecasting), SHAP (Explainable AI), Sentence-Transformers |
+| **AI Microservice**| Python 3.10+, FastAPI, Uvicorn, Prophet (Time-series Forecasting), Sentence-Transformers (Embeddings), Google Gemini SDK (LLM Generation) |
 | **Database** | PostgreSQL 16, `pgvector` extension (for vector embeddings and RAG search) |
 | **Infrastructure** | Docker, Docker Compose, Gradle (Wrapper) |
 
@@ -87,10 +87,22 @@ The platform features a modern, responsive **dark-themed Single Page Application
 * **Real-Time Stock Auditing**: Monitor warehouse quantities, reorder thresholds, and warehouse location codes.
 * **Stock Adjustments & Logging**: Perform audit adjustments (`ADD`, `SUBTRACT`, `SET`) with mandatory reason tracking.
 
-### 8. 🤖 Deep AI Capabilities (`ai-service`)
-* **Sales Forecasting**: Time-series demand prediction using Facebook Prophet.
-* **Explainable Business Health Score**: AI-driven score with SHAP explanations highlighting positive and negative contributing factors.
-* **RAG-Based Business Assistant**: Natural language query engine utilizing vector embeddings (`pgvector`) and LLM generation to answer complex business questions directly from database records.
+### 8. 📈 Sales Forecasting (`/api/forecast`)
+* **Prophet Time-Series Model**: Demand prediction using Facebook Prophet trained on historical order data.
+* **Confidence Intervals**: Upper and lower bound forecasts for risk-aware planning.
+* **SHAP Component Importance**: Explainable breakdown of which factors influence the forecast.
+
+### 9. 💓 Business Health Score (`/api/health-score`)
+* **Composite Health Assessment**: Weighted score across Sales Performance, Revenue Growth, Inventory Health, and Expense Efficiency.
+* **SHAP-Inspired Explanations**: Each component scored 0–100 with detailed natural-language explanations.
+* **Actionable Recommendations**: Priority-ranked suggestions (HIGH / MEDIUM / LOW) based on weak areas.
+
+### 10. 🤖 RAG Business Assistant (`/api/assistant`)
+* **Natural Language Queries**: Ask free-form questions about sales, inventory, customers, orders, suppliers, and expenses.
+* **Vector Search (pgvector)**: Business data is embedded with `sentence-transformers` (all-MiniLM-L6-v2) and stored as 384-dim vectors for cosine similarity retrieval.
+* **Gemini LLM Generation**: Retrieved context is sent to Google Gemini (`gemini-2.0-flash`) for intelligent, data-grounded answers.
+* **Source Citations**: Every answer includes the source data chunks with relevance scores for full transparency.
+* **One-Click Data Sync**: Re-index all 6 business tables into the vector store with a single API call.
 
 ---
 
@@ -141,6 +153,13 @@ uvicorn app.main:app --reload --port 8000
 ```
 *AI service API will start on **`http://localhost:8000`**.*
 
+#### RAG Assistant Setup (requires Gemini API key)
+Create a `.env` file in the `ai-service/` directory:
+```env
+GEMINI_API_KEY=your_google_gemini_api_key_here
+```
+Get a free API key from [Google AI Studio](https://aistudio.google.com/apikey). The embedding model (`all-MiniLM-L6-v2`) runs locally — no API key needed for embeddings.
+
 ---
 
 ## 📡 REST API Reference Summary
@@ -158,6 +177,14 @@ uvicorn app.main:app --reload --port 8000
 | **Suppliers** | `GET / POST` | `/api/suppliers` | Manage vendor directory and performance ratings |
 | **Inventory** | `GET / POST` | `/api/inventory` | Check stock levels or create inventory record |
 | **Inventory** | `POST` | `/api/inventory/{id}/adjust` | Perform stock quantity adjustment |
+| **Expenses** | `GET / POST` | `/api/expenses` | Manage business expenses with category tracking |
+| **Forecast** | `POST` | `/api/forecast/generate` | Generate sales forecast using Prophet |
+| **Forecast** | `GET` | `/api/forecast/latest` | Retrieve the most recent forecast |
+| **Health Score** | `POST` | `/api/health-score/calculate` | Calculate composite business health score |
+| **Health Score** | `GET` | `/api/health-score/latest` | Retrieve the latest health score |
+| **Assistant** | `POST` | `/api/assistant/ask` | Ask a natural-language business question (RAG) |
+| **Assistant** | `POST` | `/api/assistant/sync` | Sync (re-index) all business data into vector store |
+| **Assistant** | `GET` | `/api/assistant/status` | Get RAG index status and chunk count |
 | **Users** | `GET / PUT` | `/api/users/profile` | View or update current user profile |
 
 ---
@@ -168,10 +195,14 @@ uvicorn app.main:app --reload --port 8000
 AIBI/
 ├── backend/                  → Spring Boot 3.4 Backend REST API
 │   ├── src/main/java/com/aibi/
+│   │   ├── assistant/        → RAG assistant proxy controller
 │   │   ├── auth/             → Authentication controllers & JWT services
 │   │   ├── config/           → Security, JWT filter, & CORS configuration
 │   │   ├── customer/         → Customer entity, repository, & services
 │   │   ├── dashboard/        → Analytics aggregation & KPI calculation
+│   │   ├── expense/          → Expense tracking & category analytics
+│   │   ├── forecast/         → Forecast proxy controller
+│   │   ├── healthscore/      → Health score proxy controller
 │   │   ├── inventory/        → Inventory tracking & stock adjustment logic
 │   │   ├── order/            → Order processing & order item management
 │   │   ├── product/          → Product catalog management
@@ -180,20 +211,21 @@ AIBI/
 │   └── build.gradle          → Gradle build definitions
 ├── frontend/                 → React 19 + TypeScript SPA
 │   ├── src/
-│   │   ├── components/       → Reusable UI (Sidebar, AppLayout, Modal, StatusBadge)
+│   │   ├── components/       → Reusable UI (Sidebar, AppLayout, Modal, StatusBadge, EmptyState)
 │   │   ├── context/          → AuthContext state management
-│   │   ├── pages/            → Dashboard, Products, Orders, Customers, Inventory, Suppliers, Profile
+│   │   ├── pages/            → Dashboard, Products, Orders, Customers, Inventory, Suppliers,
+│   │   │                       Expenses, Forecast, HealthScore, Assistant, Profile
 │   │   ├── services/         → Typed Axios API clients for all endpoints
 │   │   └── types/            → TypeScript domain interfaces
 │   └── package.json          → NPM dependencies & scripts
 ├── ai-service/               → FastAPI AI Microservice
 │   ├── app/
 │   │   ├── forecasting/      → Prophet sales forecasting engine
-│   │   ├── health_score/     → Explainable SHAP health scoring
-│   │   └── rag/              → Vector search & LLM RAG assistant
+│   │   ├── health_score/     → Composite health scoring with explanations
+│   │   └── rag/              → RAG assistant: embeddings, vector search, Gemini LLM
 │   └── requirements.txt      → Python dependencies
 ├── db/                       → Database initialization & pgvector setup scripts
-│   └── init.sql              → Schema creation & seed data
+│   └── init.sql              → Schema creation (11 tables) & seed data
 ├── docker-compose.yml        → Docker infrastructure setup
 └── README.md                 → Project documentation
 ```
