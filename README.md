@@ -162,6 +162,15 @@ Get a free API key from [Google AI Studio](https://aistudio.google.com/apikey). 
 
 ---
 
+## 🌐 Deployment
+
+The whole stack runs on one server with Docker Compose (`docker-compose.prod.yml`): nginx serves the
+React build and proxies `/api` to Spring Boot, with the AI service and PostgreSQL + pgvector on the
+internal network. Step-by-step instructions (Oracle Cloud Always Free or any VPS, HTTPS, backups) are in
+**[DEPLOY.md](DEPLOY.md)**.
+
+---
+
 ## 📡 REST API Reference Summary
 
 | Module | Method | Endpoint | Description |

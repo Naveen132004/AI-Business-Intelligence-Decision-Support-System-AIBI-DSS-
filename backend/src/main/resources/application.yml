@@ -1,14 +1,15 @@
 server:
   port: 8080
+  forward-headers-strategy: framework   # trust X-Forwarded-* from the nginx proxy
 
 spring:
   application:
     name: aibi-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/aibi_db
-    username: aibi_user
-    password: aibi_secret_2024
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/aibi_db}
+    username: ${DB_USER:aibi_user}
+    password: ${DB_PASSWORD:aibi_secret_2024}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -28,18 +29,18 @@ spring:
 # ── JWT Configuration ──
 app:
   jwt:
-    secret: "AIBI-DSS-JWT-SECRET-KEY-CHANGE-IN-PRODUCTION-2024-MIN-256-BITS!!"
+    secret: ${JWT_SECRET:AIBI-DSS-JWT-SECRET-KEY-CHANGE-IN-PRODUCTION-2024-MIN-256-BITS!!}
     expiration-ms: 86400000       # 24 hours
   cors:
-    allowed-origins: http://localhost:5173
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
 
 # ── AI Service URL ──
 aibi:
   ai-service:
-    url: http://localhost:8000
+    url: ${AI_SERVICE_URL:http://localhost:8000}
 
 # ── Logging ──
 logging:
   level:
-    com.aibi: DEBUG
+    com.aibi: ${LOG_LEVEL:DEBUG}
     org.springframework.security: INFO
