@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+import hmac
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from app.config import settings
 
 app = FastAPI(
@@ -16,6 +19,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def require_internal_key(request: Request, call_next):
+    """Only the backend may call /api/* when INTERNAL_API_KEY is set."""
+    if settings.INTERNAL_API_KEY and request.url.path.startswith("/api/"):
+        sent = request.headers.get("x-internal-key", "")
+        if not hmac.compare_digest(sent, settings.INTERNAL_API_KEY):
+            return JSONResponse(status_code=401, content={"detail": "Missing or invalid internal key"})
+    return await call_next(request)
 
 
 @app.get("/health")

@@ -28,20 +28,45 @@ def _get_embedding_model():
     return _embedding_model
 
 
+def _configure_gemini():
+    import google.generativeai as genai
+    if not settings.GEMINI_API_KEY:
+        raise ValueError(
+            "GEMINI_API_KEY is not configured. "
+            "Set it in ai-service/.env or as an environment variable."
+        )
+    genai.configure(api_key=settings.GEMINI_API_KEY)
+    return genai
+
+
 def _get_gemini_model():
     """Lazy-load the Gemini generative model."""
     global _gemini_model
     if _gemini_model is None:
-        import google.generativeai as genai
-        if not settings.GEMINI_API_KEY:
-            raise ValueError(
-                "GEMINI_API_KEY is not configured. "
-                "Set it in ai-service/.env or as an environment variable."
-            )
-        genai.configure(api_key=settings.GEMINI_API_KEY)
-        _gemini_model = genai.GenerativeModel("gemini-2.0-flash")
-        logger.info("Gemini model initialized")
+        genai = _configure_gemini()
+        _gemini_model = genai.GenerativeModel(settings.GEMINI_MODEL)
+        logger.info(f"Gemini model initialized: {settings.GEMINI_MODEL}")
     return _gemini_model
+
+
+def _embed(texts: List[str], for_query: bool = False) -> List[List[float]]:
+    """Embed texts with the configured provider; returns plain float lists."""
+    if settings.EMBEDDING_PROVIDER == "gemini":
+        genai = _configure_gemini()
+        task = "retrieval_query" if for_query else "retrieval_document"
+        vectors: List[List[float]] = []
+        for i in range(0, len(texts), 100):  # API batch limit
+            result = genai.embed_content(
+                model=settings.GEMINI_EMBEDDING_MODEL,
+                content=texts[i:i + 100],
+                task_type=task,
+                output_dimensionality=settings.EMBEDDING_DIM,
+            )
+            vectors.extend(result["embedding"])
+        return vectors
+
+    model = _get_embedding_model()
+    return [e.tolist() for e in model.encode(texts, show_progress_bar=False, normalize_embeddings=True)]
 
 
 # ── Text chunk builders ───────────────────────────────────────
@@ -263,7 +288,6 @@ def _build_expense_chunks(db: Session) -> List[dict]:
 
 def sync_business_data(db: Session) -> dict:
     """Scan all business tables, embed text chunks, and upsert into document_chunks."""
-    model = _get_embedding_model()
 
     # 1. Build all chunks
     all_chunks = []
@@ -287,7 +311,7 @@ def sync_business_data(db: Session) -> dict:
 
     # 3. Embed all chunks in batch
     texts = [c["content"] for c in all_chunks]
-    embeddings = model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
+    embeddings = _embed(texts)
 
     # 4. Insert new chunks
     insert_query = text("""
@@ -300,7 +324,7 @@ def sync_business_data(db: Session) -> dict:
             "source_type": chunk["source_type"],
             "source_id": chunk["source_id"],
             "content": chunk["content"],
-            "embedding": str(emb.tolist()),
+            "embedding": str(emb),
             "metadata": json.dumps({"source_type": chunk["source_type"], "source_id": chunk["source_id"]}),
         })
 
@@ -333,8 +357,7 @@ def ask(db: Session, question: str) -> dict:
         }
 
     # 2. Embed the question
-    model = _get_embedding_model()
-    question_embedding = model.encode([question], normalize_embeddings=True)[0]
+    question_embedding = _embed([question], for_query=True)[0]
 
     # 3. Vector similarity search using pgvector cosine distance
     search_query = text("""
@@ -347,7 +370,7 @@ def ask(db: Session, question: str) -> dict:
     """)
 
     results = db.execute(search_query, {
-        "embedding": str(question_embedding.tolist()),
+        "embedding": str(question_embedding),
         "threshold": settings.RAG_SIMILARITY_THRESHOLD,
         "top_k": settings.RAG_TOP_K,
     }).fetchall()

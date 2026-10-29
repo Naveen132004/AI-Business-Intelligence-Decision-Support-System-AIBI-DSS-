@@ -24,11 +24,19 @@ public class AssistantProxyController {
     private final String aiServiceBaseUrl;
 
     public AssistantProxyController(
-            @Value("${aibi.ai-service.url:http://localhost:8000}") String aiServiceBaseUrl) {
+            @Value("${aibi.ai-service.url:http://localhost:8000}") String aiServiceBaseUrl,
+            @Value("${aibi.ai-service.internal-key:}") String internalKey) {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(Duration.ofSeconds(5));
         factory.setReadTimeout(Duration.ofSeconds(90));
         this.restTemplate = new RestTemplate(factory);
+        if (!internalKey.isBlank()) {
+            // Shared secret checked by the AI service when it has a public URL
+            this.restTemplate.getInterceptors().add((request, body, execution) -> {
+                request.getHeaders().set("X-Internal-Key", internalKey);
+                return execution.execute(request, body);
+            });
+        }
         this.aiServiceBaseUrl = aiServiceBaseUrl;
     }
 

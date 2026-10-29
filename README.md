@@ -164,10 +164,14 @@ Get a free API key from [Google AI Studio](https://aistudio.google.com/apikey). 
 
 ## 🌐 Deployment
 
-The whole stack runs on one server with Docker Compose (`docker-compose.prod.yml`): nginx serves the
-React build and proxies `/api` to Spring Boot, with the AI service and PostgreSQL + pgvector on the
-internal network. Step-by-step instructions (Oracle Cloud Always Free or any VPS, HTTPS, backups) are in
-**[DEPLOY.md](DEPLOY.md)**.
+Two ready-made options:
+
+* **Render, free tier — [RENDER.md](RENDER.md).** `render.yaml` creates a static site for the
+  frontend plus free web services for the API and the AI service; the database is a free Neon
+  Postgres with pgvector. The AI service uses Gemini embeddings there so it fits in 512 MB.
+* **One server with Docker — [DEPLOY.md](DEPLOY.md).** `docker-compose.prod.yml` runs everything on a
+  single VM (e.g. Oracle Cloud Always Free): nginx serves the React build and proxies `/api`, with
+  the AI service and PostgreSQL + pgvector on the internal network.
 
 ---
 

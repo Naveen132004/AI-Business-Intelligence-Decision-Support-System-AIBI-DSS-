@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
   forward-headers-strategy: framework   # trust X-Forwarded-* from the nginx proxy
 
 spring:
@@ -8,6 +8,8 @@ spring:
 
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5433/aibi_db}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
     username: ${DB_USER:aibi_user}
     password: ${DB_PASSWORD:aibi_secret_2024}
     driver-class-name: org.postgresql.Driver
@@ -38,6 +40,7 @@ app:
 aibi:
   ai-service:
     url: ${AI_SERVICE_URL:http://localhost:8000}
+    internal-key: ${INTERNAL_API_KEY:}
 
 # ── Logging ──
 logging:

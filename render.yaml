@@ -1,0 +1,89 @@
+# Render Blueprint — free tier.
+# Render dashboard → New → Blueprint → pick this repo. See RENDER.md.
+#
+# The database is not defined here: use a free Neon Postgres (pgvector,
+# never expires) and paste its connection details when Render asks.
+#
+# Service URLs below assume these names were free on Render
+# (https://<name>.onrender.com). If Render added a suffix to any name,
+# update CORS_ALLOWED_ORIGINS, AI_SERVICE_URL and the /api rewrite.
+
+services:
+  # ── Spring Boot API ──────────────────────────────────────────
+  - type: web
+    name: aibi-dss-api
+    runtime: docker
+    plan: free
+    region: singapore
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: DB_URL            # jdbc:postgresql://<host>/<db>?sslmode=require
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_POOL_SIZE
+        value: "3"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://aibi-dss-web.onrender.com
+      - key: AI_SERVICE_URL
+        value: https://aibi-dss-ai.onrender.com
+      - key: LOG_LEVEL
+        value: INFO
+      # Fit Spring Boot into a 512 MB free instance
+      - key: JAVA_OPTS
+        value: "-Xmx256m -Xss512k -XX:MaxMetaspaceSize=160m -XX:+UseSerialGC -XX:TieredStopAtLevel=1"
+      - fromGroup: aibi-dss-shared
+
+  # ── FastAPI AI service (slim: Gemini embeddings, no PyTorch) ─
+  - type: web
+    name: aibi-dss-ai
+    runtime: python
+    plan: free
+    region: singapore
+    rootDir: ai-service
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.14
+      - key: DATABASE_URL      # postgresql://<user>:<password>@<host>/<db>?sslmode=require
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: EMBEDDING_PROVIDER
+        value: gemini
+      - fromGroup: aibi-dss-shared
+
+  # ── React frontend (static) ──────────────────────────────────
+  - type: web
+    name: aibi-dss-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+    routes:
+      # Same-origin API: the static site proxies /api to the backend
+      - type: rewrite
+        source: /api/*
+        destination: https://aibi-dss-api.onrender.com/api/*
+      # Client-side routes fall back to the SPA
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+envVarGroups:
+  # Shared secret: the backend sends it, the AI service requires it
+  - name: aibi-dss-shared
+    envVars:
+      - key: INTERNAL_API_KEY
+        generateValue: true
