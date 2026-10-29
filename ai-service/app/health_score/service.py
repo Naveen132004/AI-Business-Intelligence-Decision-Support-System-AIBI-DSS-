@@ -67,21 +67,26 @@ def _score_sales_performance(db: Session) -> dict:
 def _score_revenue_growth(db: Session) -> dict:
     """Score based on revenue trend — recent month vs 3-month average."""
     query = text("""
-        SELECT
-            COALESCE(SUM(total_amount) FILTER (
-                WHERE status <> 'CANCELLED'
-                AND order_date >= DATE_TRUNC('month', NOW()) - INTERVAL '1 month'
-                AND order_date < DATE_TRUNC('month', NOW())
-            ), 0) AS last_month,
-            COALESCE(AVG(monthly_rev), 0) AS avg_3m
-        FROM (
-            SELECT SUM(total_amount) AS monthly_rev
+        WITH last_month_rev AS (
+            SELECT COALESCE(SUM(total_amount), 0) AS revenue
             FROM orders
             WHERE status <> 'CANCELLED'
-              AND order_date >= NOW() - INTERVAL '4 months'
+              AND order_date >= DATE_TRUNC('month', NOW()) - INTERVAL '1 month'
               AND order_date < DATE_TRUNC('month', NOW())
-            GROUP BY DATE_TRUNC('month', order_date)
-        ) sub
+        ),
+        avg_rev AS (
+            SELECT COALESCE(AVG(monthly_rev), 0) AS revenue
+            FROM (
+                SELECT SUM(total_amount) AS monthly_rev
+                FROM orders
+                WHERE status <> 'CANCELLED'
+                  AND order_date >= NOW() - INTERVAL '4 months'
+                  AND order_date < DATE_TRUNC('month', NOW())
+                GROUP BY DATE_TRUNC('month', order_date)
+            ) sub
+        )
+        SELECT l.revenue AS last_month, a.revenue AS avg_3m
+        FROM last_month_rev l, avg_rev a
     """)
     row = db.execute(query).fetchone()
 

@@ -133,11 +133,9 @@ CREATE TABLE document_chunks (
     created_at  TIMESTAMP    DEFAULT NOW()
 );
 
--- IVFFlat index for cosine similarity search
--- NOTE: Requires ≥100 rows before it becomes effective.
--- For dev/testing with few rows, pgvector falls back to sequential scan.
+-- HNSW index for cosine similarity search (works on empty tables)
 CREATE INDEX idx_chunks_embedding ON document_chunks
-    USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+    USING hnsw (embedding vector_cosine_ops);
 
 -- ── Seed: default admin user ─────────────────────────────────
 -- Password: Admin@123 (BCrypt hash)
@@ -145,7 +143,7 @@ INSERT INTO users (full_name, email, password_hash, role)
 VALUES (
     'Admin User',
     'admin@aibi.com',
-    '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+    '$2a$10$MJf6gGqeNZ8F9o6Nxe9LteBTYr6ZYTt3iyxFK3.gux/zfntCdUd/G',
     'ADMIN'
 );
 

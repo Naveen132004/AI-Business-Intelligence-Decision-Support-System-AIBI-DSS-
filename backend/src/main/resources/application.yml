@@ -30,14 +30,13 @@ app:
   jwt:
     secret: "AIBI-DSS-JWT-SECRET-KEY-CHANGE-IN-PRODUCTION-2024-MIN-256-BITS!!"
     expiration-ms: 86400000       # 24 hours
-
-# ── AI Service URL ──
-  ai-service:
-    base-url: http://localhost:8000
-
-# ── CORS ──
   cors:
     allowed-origins: http://localhost:5173
+
+# ── AI Service URL ──
+aibi:
+  ai-service:
+    url: http://localhost:8000
 
 # ── Logging ──
 logging:

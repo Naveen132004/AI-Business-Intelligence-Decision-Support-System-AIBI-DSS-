@@ -300,7 +300,7 @@ def sync_business_data(db: Session) -> dict:
             "source_type": chunk["source_type"],
             "source_id": chunk["source_id"],
             "content": chunk["content"],
-            "embedding": emb.tolist(),
+            "embedding": str(emb.tolist()),
             "metadata": json.dumps({"source_type": chunk["source_type"], "source_id": chunk["source_id"]}),
         })
 
@@ -347,7 +347,7 @@ def ask(db: Session, question: str) -> dict:
     """)
 
     results = db.execute(search_query, {
-        "embedding": question_embedding.tolist(),
+        "embedding": str(question_embedding.tolist()),
         "threshold": settings.RAG_SIMILARITY_THRESHOLD,
         "top_k": settings.RAG_TOP_K,
     }).fetchall()

@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.post("/ask")
-async def ask_assistant(request: AskRequest, db: Session = Depends(get_db)):
+def ask_assistant(request: AskRequest, db: Session = Depends(get_db)):
     """Ask a natural-language question about business data."""
     try:
         result = rag_service.ask(db, request.question)
@@ -21,7 +21,7 @@ async def ask_assistant(request: AskRequest, db: Session = Depends(get_db)):
 
 
 @router.post("/sync")
-async def sync_data(db: Session = Depends(get_db)):
+def sync_data(db: Session = Depends(get_db)):
     """Sync (re-index) all business data into the vector store."""
     try:
         result = rag_service.sync_business_data(db)
@@ -31,7 +31,7 @@ async def sync_data(db: Session = Depends(get_db)):
 
 
 @router.get("/status")
-async def get_status(db: Session = Depends(get_db)):
+def get_status(db: Session = Depends(get_db)):
     """Get the current status of the RAG vector index."""
     try:
         return rag_service.get_status(db)

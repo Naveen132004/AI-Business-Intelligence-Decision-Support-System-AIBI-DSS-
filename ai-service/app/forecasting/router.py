@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/train")
-async def train_forecast(db: Session = Depends(get_db)):
+def train_forecast(db: Session = Depends(get_db)):
     """Train a new Prophet forecast model on historical order data."""
     try:
         forecast_id = forecast_service.train_forecast(db)
@@ -19,7 +19,7 @@ async def train_forecast(db: Session = Depends(get_db)):
 
 
 @router.get("/latest")
-async def get_latest_forecast(db: Session = Depends(get_db)):
+def get_latest_forecast(db: Session = Depends(get_db)):
     """Get the most recent revenue forecast."""
     result = forecast_service.get_latest_forecast(db)
     if not result:

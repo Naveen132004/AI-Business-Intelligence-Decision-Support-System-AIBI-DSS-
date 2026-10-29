@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/calculate")
-async def calculate_health_score(db: Session = Depends(get_db)):
+def calculate_health_score(db: Session = Depends(get_db)):
     """Calculate a new business health score."""
     try:
         score_id = health_service.calculate_health_score(db)
@@ -17,7 +17,7 @@ async def calculate_health_score(db: Session = Depends(get_db)):
 
 
 @router.get("/latest")
-async def get_latest_health_score(db: Session = Depends(get_db)):
+def get_latest_health_score(db: Session = Depends(get_db)):
     """Get the most recent health score."""
     result = health_service.get_latest_health_score(db)
     if not result:
