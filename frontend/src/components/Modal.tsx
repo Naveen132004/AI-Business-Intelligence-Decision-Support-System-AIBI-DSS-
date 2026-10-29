@@ -17,36 +17,39 @@ export default function Modal({
   maxWidth = "max-w-lg",
 }: ModalProps) {
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    }
+    if (!isOpen) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 modal-backdrop" onClick={onClose} />
 
       {/* Modal */}
       <div
-        className={`relative w-full ${maxWidth} glass rounded-2xl shadow-elevated
-                    animate-slide-up max-h-[85vh] flex flex-col`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className={`relative w-full ${maxWidth} glass-panel rounded-lg
+                    modal-content max-h-[85vh] flex flex-col`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-700/50">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b hairline">
+          <h2 className="font-display text-xl font-semibold text-fg">{title}</h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-surface-800/50 text-surface-400
-                       hover:text-white transition-all"
+            aria-label="Close"
+            className="p-2 rounded-md hover:bg-surface-800 text-surface-400
+                       hover:text-fg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

@@ -27,13 +27,13 @@ const SOURCE_CONFIG: Record<
   string,
   { icon: typeof Package; label: string; color: string }
 > = {
-  product: { icon: Package, label: "Product", color: "#6366f1" },
-  customer: { icon: Users, label: "Customer", color: "#10b981" },
-  order: { icon: ShoppingCart, label: "Order", color: "#f59e0b" },
-  supplier: { icon: Truck, label: "Supplier", color: "#3b82f6" },
-  inventory: { icon: Warehouse, label: "Inventory", color: "#8b5cf6" },
-  expense: { icon: Receipt, label: "Expense", color: "#ef4444" },
-  expense_summary: { icon: FileText, label: "Summary", color: "#ec4899" },
+  product: { icon: Package, label: "Product", color: "var(--chart-1)" },
+  customer: { icon: Users, label: "Customer", color: "var(--chart-3)" },
+  order: { icon: ShoppingCart, label: "Order", color: "var(--chart-2)" },
+  supplier: { icon: Truck, label: "Supplier", color: "var(--chart-4)" },
+  inventory: { icon: Warehouse, label: "Inventory", color: "var(--chart-4)" },
+  expense: { icon: Receipt, label: "Expense", color: "var(--chart-6)" },
+  expense_summary: { icon: FileText, label: "Summary", color: "var(--chart-5)" },
 };
 
 // ── Message type ─────────────────────────────────────────────
@@ -64,7 +64,7 @@ function SourceCard({ source }: { source: AssistantSource }) {
   const config = SOURCE_CONFIG[source.source_type] || {
     icon: FileText,
     label: source.source_type,
-    color: "#94a3b8",
+    color: "var(--chart-axis)",
   };
   const Icon = config.icon;
   const relevance = Math.round(source.score * 100);
@@ -80,7 +80,7 @@ function SourceCard({ source }: { source: AssistantSource }) {
       >
         <div
           className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-          style={{ background: `${config.color}20` }}
+          style={{ background: `color-mix(in srgb, ${config.color} 13%, transparent)` }}
         >
           <Icon className="w-3.5 h-3.5" style={{ color: config.color }} />
         </div>
@@ -100,8 +100,8 @@ function SourceCard({ source }: { source: AssistantSource }) {
           <span
             className="text-[10px] font-bold px-1.5 py-0.5 rounded-full"
             style={{
-              background: `${config.color}15`,
-              color: config.color,
+              background: `color-mix(in srgb, ${config.color} 8%, transparent)`,
+              color: "var(--text-strong)",
             }}
           >
             {relevance}%
@@ -131,7 +131,7 @@ function TypingIndicator() {
   return (
     <div className="flex items-start gap-3 animate-fade-in">
       <div className="w-8 h-8 rounded-xl gradient-primary flex items-center justify-center shrink-0">
-        <Bot className="w-4 h-4 text-white" />
+        <Bot className="w-4 h-4 text-fg" />
       </div>
       <div className="glass rounded-2xl rounded-tl-sm px-4 py-3 mt-1">
         <div className="flex items-center gap-1.5">
@@ -267,7 +267,7 @@ export default function AssistantPage() {
   const renderMarkdown = (text: string) => {
     let html = text
       // Bold
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-fg">$1</strong>')
       // Bullet points
       .replace(
         /^[-•]\s+(.*)$/gm,
@@ -285,16 +285,16 @@ export default function AssistantPage() {
   };
 
   return (
-    <div className="animate-fade-in flex flex-col h-[calc(100vh-2rem)]">
+    <div className="animate-fade-in flex flex-col h-[calc(100dvh-7rem)] lg:h-[calc(100dvh-8rem)] min-h-[420px]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 shrink-0">
         <div>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
+              <Bot className="w-5 h-5 text-fg" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">
+              <h1 className="text-2xl font-bold text-fg">
                 Business Assistant
               </h1>
               <p className="text-surface-400 text-sm">
@@ -310,7 +310,7 @@ export default function AssistantPage() {
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl glass text-xs">
               <Database className="w-3.5 h-3.5 text-primary-400" />
               <span className="text-surface-400">
-                <span className="text-white font-semibold">
+                <span className="text-fg font-semibold">
                   {status.chunks_in_db}
                 </span>{" "}
                 chunks indexed
@@ -323,7 +323,7 @@ export default function AssistantPage() {
             onClick={handleSync}
             disabled={syncing}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass text-sm font-medium
-                       text-surface-300 hover:text-white hover:bg-surface-700/50
+                       text-surface-300 hover:text-fg hover:bg-surface-700/50
                        transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {syncing ? (
@@ -355,9 +355,9 @@ export default function AssistantPage() {
           {messages.length === 0 && !loading && (
             <div className="flex flex-col items-center justify-center h-full animate-fade-in">
               <div className="w-20 h-20 rounded-2xl gradient-primary flex items-center justify-center mb-5 shadow-glow">
-                <Sparkles className="w-10 h-10 text-white" />
+                <Sparkles className="w-10 h-10 text-fg" />
               </div>
-              <h2 className="text-xl font-semibold text-white mb-2">
+              <h2 className="text-xl font-semibold text-fg mb-2">
                 Ask me anything about your business
               </h2>
               <p className="text-surface-400 text-sm text-center max-w-md mb-8">
@@ -378,7 +378,7 @@ export default function AssistantPage() {
                     onClick={() => handleSend(q)}
                     className="text-left px-4 py-3 rounded-xl border border-surface-700/50
                                bg-surface-900/30 text-surface-300 text-sm
-                               hover:border-primary-500/30 hover:text-white hover:bg-surface-800/50
+                               hover:border-primary-500/30 hover:text-fg hover:bg-surface-800/50
                                transition-all duration-200 group"
                   >
                     <span className="text-primary-400 mr-2 group-hover:text-primary-300">
@@ -409,7 +409,7 @@ export default function AssistantPage() {
                 {msg.role === "user" ? (
                   <User className="w-4 h-4 text-surface-300" />
                 ) : (
-                  <Bot className="w-4 h-4 text-white" />
+                  <Bot className="w-4 h-4 text-fg" />
                 )}
               </div>
 
@@ -441,7 +441,7 @@ export default function AssistantPage() {
                 {/* Sources */}
                 {msg.sources && msg.sources.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-[11px] text-surface-500 font-medium uppercase tracking-wider px-1">
+                    <p className="text-[11px] text-surface-500 font-medium px-1">
                       Sources ({msg.sources.length})
                     </p>
                     <div className="space-y-1.5">
@@ -503,7 +503,7 @@ export default function AssistantPage() {
               onClick={() => handleSend()}
               disabled={!input.trim() || loading}
               className="w-11 h-11 rounded-xl gradient-primary flex items-center justify-center
-                         text-white shrink-0 hover:shadow-glow transition-all duration-200
+                         text-fg shrink-0 hover:shadow-glow transition-all duration-200
                          disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
             >
               <Send className="w-4 h-4" />

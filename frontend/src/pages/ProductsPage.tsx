@@ -150,7 +150,7 @@ export default function ProductsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Products</h1>
+          <h1 className="text-2xl font-bold text-fg">Products</h1>
           <p className="text-surface-400 text-sm mt-1">
             Manage your product catalog
           </p>
@@ -175,7 +175,7 @@ export default function ProductsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                       text-white placeholder:text-surface-500 text-sm
+                       text-fg placeholder:text-surface-500 text-sm
                        focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                        transition-all"
           />
@@ -186,7 +186,7 @@ export default function ProductsPage() {
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
             className="pl-10 pr-8 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                       text-white text-sm appearance-none cursor-pointer
+                       text-fg text-sm appearance-none cursor-pointer
                        focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                        transition-all"
           >
@@ -229,22 +229,22 @@ export default function ProductsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-surface-700/50">
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400">
                     Product
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400">
                     SKU
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400">
                     Category
                   </th>
-                  <th className="text-right px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-right px-5 py-3 text-xs font-medium text-surface-400">
                     Price
                   </th>
-                  <th className="text-right px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-right px-5 py-3 text-xs font-medium text-surface-400">
                     Cost
                   </th>
-                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400">
                     Actions
                   </th>
                 </tr>
@@ -256,7 +256,7 @@ export default function ProductsPage() {
                     className="hover:bg-surface-800/30 transition-colors"
                   >
                     <td className="px-5 py-4">
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium text-fg">
                         {product.name}
                       </p>
                       {product.description && (
@@ -276,7 +276,7 @@ export default function ProductsPage() {
                       </span>
                     </td>
                     <td className="px-5 py-4 text-right">
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-sm font-medium text-fg">
                         {formatCurrency(product.unitPrice)}
                       </span>
                     </td>
@@ -292,7 +292,7 @@ export default function ProductsPage() {
                         <button
                           onClick={() => openEditModal(product)}
                           className="p-2 rounded-lg hover:bg-surface-700/50 text-surface-400
-                                     hover:text-white transition-all"
+                                     hover:text-fg transition-all"
                           title="Edit"
                         >
                           <Pencil className="w-4 h-4" />
@@ -342,7 +342,7 @@ export default function ProductsPage() {
                   setFormData({ ...formData, name: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                            transition-all"
                 placeholder="e.g. MacBook Pro 16"
@@ -362,7 +362,7 @@ export default function ProductsPage() {
                     setFormData({ ...formData, sku: e.target.value.toUpperCase() })
                   }
                   className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                             text-white placeholder:text-surface-500 text-sm font-mono
+                             text-fg placeholder:text-surface-500 text-sm font-mono
                              focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                              transition-all"
                   placeholder="ELEC-001"
@@ -381,7 +381,7 @@ export default function ProductsPage() {
                   setFormData({ ...formData, category: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                            transition-all"
                 placeholder="Electronics"
@@ -408,7 +408,7 @@ export default function ProductsPage() {
                   setFormData({ ...formData, unitPrice: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                            transition-all"
                 placeholder="0.00"
@@ -428,7 +428,7 @@ export default function ProductsPage() {
                   setFormData({ ...formData, costPrice: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                            transition-all"
                 placeholder="0.00"
@@ -446,7 +446,7 @@ export default function ProductsPage() {
                   setFormData({ ...formData, description: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm resize-none
+                           text-fg placeholder:text-surface-500 text-sm resize-none
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                            transition-all"
                 placeholder="Brief product description..."

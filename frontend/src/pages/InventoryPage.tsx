@@ -225,7 +225,7 @@ export default function InventoryPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Inventory</h1>
+          <h1 className="text-2xl font-bold text-fg">Inventory</h1>
           <p className="text-surface-400 text-sm mt-1">
             {inventory.length} tracked items · {lowStockItems.length} low stock
           </p>
@@ -242,10 +242,10 @@ export default function InventoryPage() {
 
       {/* Low Stock Alert Banner */}
       {lowStockItems.length > 0 && (
-        <div className="mb-6 px-5 py-4 rounded-2xl bg-danger/5 border border-danger/20 animate-slide-up">
-          <div className="flex items-center gap-3 mb-2">
-            <AlertTriangle className="w-5 h-5 text-danger" />
-            <span className="text-sm font-semibold text-danger">
+        <div role="status" className="flag-row mb-6 px-5 py-4 rounded-md border border-warning/30">
+          <div className="flex items-center gap-2.5 mb-2.5">
+            <AlertTriangle className="w-4 h-4 text-warning" aria-hidden="true" />
+            <span className="text-sm font-semibold text-fg">
               {lowStockItems.length} item{lowStockItems.length !== 1 ? "s" : ""}{" "}
               below reorder level
             </span>
@@ -254,11 +254,11 @@ export default function InventoryPage() {
             {lowStockItems.map((item) => (
               <span
                 key={item.id}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full
-                           text-xs font-medium bg-danger/10 text-danger border border-danger/20"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm
+                           text-xs font-medium text-fg bg-[var(--card-bg)] border border-warning/30"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-danger animate-pulse" />
-                {item.productName}: {item.quantityInStock}/{item.reorderLevel}
+                {item.productName}
+                <span className="font-semibold text-warning">{item.quantityInStock} of {item.reorderLevel}</span>
               </span>
             ))}
           </div>
@@ -277,7 +277,7 @@ export default function InventoryPage() {
           value={filterSupplier}
           onChange={(e) => setFilterSupplier(e.target.value)}
           className="px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                     text-white text-sm appearance-none cursor-pointer
+                     text-fg text-sm appearance-none cursor-pointer
                      focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
         >
           <option value="">All Suppliers</option>
@@ -312,22 +312,22 @@ export default function InventoryPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-surface-700/50">
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400">
                     Product
                   </th>
-                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400">
                     Stock
                   </th>
-                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400">
                     Reorder Level
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider hidden md:table-cell">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 hidden md:table-cell">
                     Supplier
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider hidden lg:table-cell">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 hidden lg:table-cell">
                     Last Restocked
                   </th>
-                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400">
                     Actions
                   </th>
                 </tr>
@@ -342,7 +342,7 @@ export default function InventoryPage() {
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
                     <td className="px-5 py-4">
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium text-fg">
                         {item.productName}
                       </p>
                       <span className="text-xs text-surface-500 font-mono">
@@ -404,7 +404,7 @@ export default function InventoryPage() {
                         <button
                           onClick={() => openEditModal(item)}
                           className="p-2 rounded-lg hover:bg-surface-700/50 text-surface-400
-                                     hover:text-white transition-all"
+                                     hover:text-fg transition-all"
                           title="Edit Settings"
                         >
                           <Settings className="w-4 h-4" />
@@ -428,7 +428,7 @@ export default function InventoryPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-surface-800/30 border border-surface-700/30">
             <span className="text-sm text-surface-400">Current Stock</span>
-            <span className="text-lg font-bold text-white">
+            <span className="text-lg font-bold text-fg">
               {restockItem?.quantityInStock}
             </span>
           </div>
@@ -442,7 +442,7 @@ export default function InventoryPage() {
               value={restockQty}
               onChange={(e) => setRestockQty(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm focus:outline-none focus:border-primary-500
+                         text-fg text-sm focus:outline-none focus:border-primary-500
                          focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="Enter quantity"
               autoFocus
@@ -486,7 +486,7 @@ export default function InventoryPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-surface-800/30 border border-surface-700/30">
             <span className="text-sm text-surface-400">Current Stock</span>
-            <span className="text-lg font-bold text-white">
+            <span className="text-lg font-bold text-fg">
               {adjustItem?.quantityInStock}
             </span>
           </div>
@@ -501,7 +501,7 @@ export default function InventoryPage() {
               value={adjustQty}
               onChange={(e) => setAdjustQty(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm focus:outline-none focus:border-primary-500
+                         text-fg text-sm focus:outline-none focus:border-primary-500
                          focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="Enter quantity"
               autoFocus
@@ -522,7 +522,7 @@ export default function InventoryPage() {
                   (adjustItem?.quantityInStock || 0) - parseInt(adjustQty || "0") <=
                   (adjustItem?.reorderLevel || 0)
                     ? "text-danger"
-                    : "text-white"
+                    : "text-fg"
                 }`}
               >
                 {(adjustItem?.quantityInStock || 0) - parseInt(adjustQty || "0")}
@@ -567,7 +567,7 @@ export default function InventoryPage() {
               value={editReorderLevel}
               onChange={(e) => setEditReorderLevel(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm focus:outline-none focus:border-primary-500
+                         text-fg text-sm focus:outline-none focus:border-primary-500
                          focus:ring-1 focus:ring-primary-500/30 transition-all"
             />
           </div>
@@ -579,7 +579,7 @@ export default function InventoryPage() {
               value={editSupplierId}
               onChange={(e) => setEditSupplierId(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm appearance-none cursor-pointer
+                         text-fg text-sm appearance-none cursor-pointer
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
             >
               <option value="">No supplier</option>
@@ -632,7 +632,7 @@ export default function InventoryPage() {
               value={addProductId}
               onChange={(e) => setAddProductId(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm appearance-none cursor-pointer
+                         text-fg text-sm appearance-none cursor-pointer
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
             >
               <option value="">Select product</option>
@@ -659,7 +659,7 @@ export default function InventoryPage() {
                 value={addQty}
                 onChange={(e) => setAddQty(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white text-sm focus:outline-none focus:border-primary-500
+                           text-fg text-sm focus:outline-none focus:border-primary-500
                            focus:ring-1 focus:ring-primary-500/30 transition-all"
               />
             </div>
@@ -673,7 +673,7 @@ export default function InventoryPage() {
                 value={addReorder}
                 onChange={(e) => setAddReorder(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white text-sm focus:outline-none focus:border-primary-500
+                           text-fg text-sm focus:outline-none focus:border-primary-500
                            focus:ring-1 focus:ring-primary-500/30 transition-all"
               />
             </div>
@@ -686,7 +686,7 @@ export default function InventoryPage() {
               value={addSupplierId}
               onChange={(e) => setAddSupplierId(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm appearance-none cursor-pointer
+                         text-fg text-sm appearance-none cursor-pointer
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
             >
               <option value="">No supplier</option>

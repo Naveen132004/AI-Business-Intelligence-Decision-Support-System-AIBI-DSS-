@@ -200,7 +200,7 @@ export default function OrdersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Orders</h1>
+          <h1 className="text-2xl font-bold text-fg">Orders</h1>
           <p className="text-surface-400 text-sm mt-1">
             Track and manage customer orders
           </p>
@@ -225,7 +225,7 @@ export default function OrdersPage() {
                        ${
                          activeTab === tab.value
                            ? "gradient-primary text-white shadow-glow"
-                           : "glass text-surface-400 hover:text-white"
+                           : "glass text-surface-400 hover:text-fg"
                        }`}
           >
             {tab.label}
@@ -273,7 +273,7 @@ export default function OrdersPage() {
                     </span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-white truncate">
+                    <p className="text-sm font-medium text-fg truncate">
                       <span className="sm:hidden text-surface-400">#{order.id} · </span>
                       {order.customerName}
                     </p>
@@ -286,7 +286,7 @@ export default function OrdersPage() {
 
                 <div className="flex items-center gap-4">
                   <StatusBadge status={order.status} />
-                  <span className="text-sm font-semibold text-white hidden sm:block">
+                  <span className="text-sm font-semibold text-fg hidden sm:block">
                     {formatCurrency(order.totalAmount)}
                   </span>
                   {expandedId === order.id ? (
@@ -300,14 +300,14 @@ export default function OrdersPage() {
               {/* Expanded Details */}
               {expandedId === order.id && (
                 <div className="px-5 pb-5 border-t border-surface-700/50 animate-fade-in">
-                  <div className="sm:hidden text-sm font-semibold text-white mb-3 pt-3">
+                  <div className="sm:hidden text-sm font-semibold text-fg mb-3 pt-3">
                     Total: {formatCurrency(order.totalAmount)}
                   </div>
 
                   {/* Items Table */}
                   <table className="w-full mt-3">
                     <thead>
-                      <tr className="text-xs text-surface-500 uppercase">
+                      <tr className="text-xs text-surface-500">
                         <th className="text-left pb-2">Item</th>
                         <th className="text-center pb-2">Qty</th>
                         <th className="text-right pb-2">Price</th>
@@ -317,7 +317,7 @@ export default function OrdersPage() {
                     <tbody className="divide-y divide-surface-800/50">
                       {order.items.map((item) => (
                         <tr key={item.id}>
-                          <td className="py-2 text-sm text-white">
+                          <td className="py-2 text-sm text-fg">
                             {item.productName}
                             <span className="text-xs text-surface-500 ml-2">
                               {item.productSku}
@@ -329,7 +329,7 @@ export default function OrdersPage() {
                           <td className="py-2 text-sm text-surface-400 text-right">
                             {formatCurrency(item.unitPrice)}
                           </td>
-                          <td className="py-2 text-sm text-white text-right font-medium">
+                          <td className="py-2 text-sm text-fg text-right font-medium">
                             {formatCurrency(item.subtotal)}
                           </td>
                         </tr>
@@ -390,7 +390,7 @@ export default function OrdersPage() {
               value={selectedCustomer}
               onChange={(e) => setSelectedCustomer(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white text-sm appearance-none cursor-pointer
+                         text-fg text-sm appearance-none cursor-pointer
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
             >
               <option value="">Select a customer</option>
@@ -416,7 +416,7 @@ export default function OrdersPage() {
                       updateItem(idx, "productId", e.target.value)
                     }
                     className="flex-1 px-3 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                               text-white text-sm appearance-none
+                               text-fg text-sm appearance-none
                                focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                   >
                     <option value="">Select product</option>
@@ -434,7 +434,7 @@ export default function OrdersPage() {
                       updateItem(idx, "quantity", e.target.value)
                     }
                     className="w-20 px-3 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                               text-white text-sm text-center
+                               text-fg text-sm text-center
                                focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                     placeholder="Qty"
                   />
@@ -470,7 +470,7 @@ export default function OrdersPage() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white placeholder:text-surface-500 text-sm
+                         text-fg placeholder:text-surface-500 text-sm
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="Optional order notes"
             />
@@ -479,7 +479,7 @@ export default function OrdersPage() {
           {/* Total */}
           <div className="flex items-center justify-between py-3 px-4 rounded-xl bg-surface-800/30 border border-surface-700/30">
             <span className="text-sm text-surface-400">Estimated Total</span>
-            <span className="text-lg font-bold text-white">
+            <span className="text-lg font-bold text-fg">
               {formatCurrency(calculateTotal())}
             </span>
           </div>

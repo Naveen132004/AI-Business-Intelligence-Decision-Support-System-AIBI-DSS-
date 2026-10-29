@@ -33,7 +33,7 @@ const formatCurrency = (val: number) =>
     maximumFractionDigits: 0,
   }).format(val);
 
-const COMPONENT_COLORS = ["#6366f1", "#10b981", "#f59e0b", "#ec4899", "#06b6d4"];
+const COMPONENT_COLORS = ["var(--chart-1)", "var(--chart-3)", "var(--chart-2)", "var(--chart-5)", "var(--chart-6)"];
 
 export default function ForecastPage() {
   const [forecast, setForecast] = useState<ForecastResponse | null>(null);
@@ -114,7 +114,7 @@ export default function ForecastPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Sales Forecast</h1>
+          <h1 className="text-2xl font-bold text-fg">Sales Forecast</h1>
           <p className="text-surface-400 text-sm mt-1">
             AI-powered revenue forecasting with Prophet
           </p>
@@ -153,7 +153,7 @@ export default function ForecastPage() {
           <div className="w-16 h-16 rounded-2xl bg-primary-500/10 flex items-center justify-center mx-auto mb-4">
             <TrendingUp className="w-8 h-8 text-primary-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-fg mb-2">
             No Forecast Yet
           </h2>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
@@ -228,10 +228,10 @@ export default function ForecastPage() {
                     <stat.icon className={`w-5 h-5 ${stat.color}`} />
                   </div>
                   <div>
-                    <p className="text-xs text-surface-500 uppercase tracking-wider">
+                    <p className="text-xs text-surface-500">
                       {stat.label}
                     </p>
-                    <p className="text-lg font-bold text-white mt-0.5">
+                    <p className="text-lg font-bold text-fg mt-0.5">
                       {stat.value}
                     </p>
                   </div>
@@ -246,7 +246,7 @@ export default function ForecastPage() {
             style={{ animationDelay: "320ms" }}
           >
             <div className="flex items-center justify-between mb-1">
-              <h2 className="text-lg font-semibold text-white">
+              <h2 className="text-lg font-semibold text-fg">
                 Revenue Forecast
               </h2>
               <p className="text-xs text-surface-500">
@@ -268,32 +268,32 @@ export default function ForecastPage() {
               <ComposedChart data={chartData}>
                 <defs>
                   <linearGradient id="confidenceGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6366f1" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#6366f1" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="rgba(255,255,255,0.05)"
+                  stroke="var(--s-700)"
                 />
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: "#64748b", fontSize: 11 }}
+                  tick={{ fill: "var(--chart-axis)", fontSize: 11 }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fill: "#64748b", fontSize: 11 }}
+                  tick={{ fill: "var(--chart-axis)", fontSize: 11 }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K`}
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#1e293b",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    backgroundColor: "var(--chart-tip-bg)",
+                    border: "1px solid var(--chart-tip-border)",
                     borderRadius: "12px",
-                    color: "#f1f5f9",
+                    color: "var(--chart-tip-fg)",
                   }}
                   formatter={(value, name) => {
                     if (value === null || value === undefined) return ["—", name];
@@ -318,7 +318,7 @@ export default function ForecastPage() {
                 <Line
                   type="monotone"
                   dataKey="predicted"
-                  stroke="#6366f1"
+                  stroke="var(--chart-1)"
                   strokeWidth={2}
                   strokeDasharray="6 3"
                   dot={false}
@@ -328,9 +328,9 @@ export default function ForecastPage() {
                 <Line
                   type="monotone"
                   dataKey="actual"
-                  stroke="#10b981"
+                  stroke="var(--chart-3)"
                   strokeWidth={2.5}
-                  dot={{ fill: "#10b981", r: 4 }}
+                  dot={{ fill: "var(--chart-3)", r: 4 }}
                   connectNulls={false}
                   name="Actual"
                 />
@@ -344,7 +344,7 @@ export default function ForecastPage() {
                 <span className="text-xs text-surface-400">Actual Revenue</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-0.5 bg-primary-400 rounded" style={{ borderTop: "2px dashed #6366f1" }} />
+                <div className="w-4 h-0.5 bg-primary-400 rounded" style={{ borderTop: "2px dashed var(--chart-1)" }} />
                 <span className="text-xs text-surface-400">Predicted</span>
               </div>
               <div className="flex items-center gap-2">
@@ -361,7 +361,7 @@ export default function ForecastPage() {
               className="glass rounded-2xl p-6 animate-slide-up"
               style={{ animationDelay: "400ms" }}
             >
-              <h2 className="text-lg font-semibold text-white mb-4">
+              <h2 className="text-lg font-semibold text-fg mb-4">
                 Feature Importance
               </h2>
               <p className="text-surface-400 text-xs mb-4">
@@ -373,7 +373,7 @@ export default function ForecastPage() {
                   {components.map((comp: ComponentImportance, idx: number) => (
                     <div key={comp.name}>
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-sm text-white font-medium">
+                        <span className="text-sm text-fg font-medium">
                           {comp.name}
                         </span>
                         <span
@@ -408,26 +408,26 @@ export default function ForecastPage() {
               className="lg:col-span-2 glass rounded-2xl p-6 animate-slide-up"
               style={{ animationDelay: "480ms" }}
             >
-              <h2 className="text-lg font-semibold text-white mb-4">
+              <h2 className="text-lg font-semibold text-fg mb-4">
                 Forecast Details
               </h2>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-surface-700/50">
-                      <th className="text-left px-4 py-2.5 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                      <th className="text-left px-4 py-2.5 text-xs font-medium text-surface-400">
                         Month
                       </th>
-                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400">
                         Actual
                       </th>
-                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400">
                         Predicted
                       </th>
-                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400 uppercase tracking-wider hidden md:table-cell">
+                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400 hidden md:table-cell">
                         Lower
                       </th>
-                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400 uppercase tracking-wider hidden md:table-cell">
+                      <th className="text-right px-4 py-2.5 text-xs font-medium text-surface-400 hidden md:table-cell">
                         Upper
                       </th>
                     </tr>
@@ -448,7 +448,7 @@ export default function ForecastPage() {
                           >
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-2">
-                                <span className="text-sm text-white font-medium">
+                                <span className="text-sm text-fg font-medium">
                                   {dp.month}
                                 </span>
                                 {isFuture && (

@@ -129,21 +129,21 @@ export default function ProfilePage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate("/dashboard")}
-              className="p-2 rounded-lg hover:bg-surface-800/50 text-surface-400 hover:text-white transition-all"
+              className="p-2 rounded-lg hover:bg-surface-800/50 text-surface-400 hover:text-fg transition-all"
               title="Back to Dashboard"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+              <Brain className="w-5 h-5 text-fg" />
             </div>
-            <span className="text-lg font-bold text-white">AIBI-DSS</span>
+            <span className="text-lg font-bold text-fg">AIBI-DSS</span>
           </div>
 
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-surface-800/50 
-                       text-surface-400 hover:text-white transition-all text-sm"
+                       text-surface-400 hover:text-fg transition-all text-sm"
           >
             <LogOut className="w-4 h-4" />
             Sign Out
@@ -158,9 +158,9 @@ export default function ProfilePage() {
           {/* Avatar */}
           <div className="w-24 h-24 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4 
                           shadow-lg shadow-primary-500/20 ring-4 ring-primary-500/10">
-            <span className="text-3xl font-bold text-white">{initials}</span>
+            <span className="text-3xl font-bold text-fg">{initials}</span>
           </div>
-          <h1 className="text-2xl font-bold text-white">{user?.fullName}</h1>
+          <h1 className="text-2xl font-bold text-fg">{user?.fullName}</h1>
           <p className="text-surface-400 text-sm mt-1">{user?.email}</p>
           <span className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full text-xs font-medium
                            bg-primary-500/10 text-primary-300 border border-primary-500/20">
@@ -171,7 +171,7 @@ export default function ProfilePage() {
 
         {/* Profile Info Card */}
         <div className="glass rounded-2xl p-6 mb-6 animate-slide-up">
-          <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-fg mb-5 flex items-center gap-2">
             <UserIcon className="w-5 h-5 text-primary-400" />
             Profile Information
           </h2>
@@ -195,7 +195,7 @@ export default function ProfilePage() {
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-surface-800/50 border border-surface-700/50 
-                             text-white placeholder:text-surface-500 
+                             text-fg placeholder:text-surface-500 
                              focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                              transition-all duration-200"
                   autoFocus
@@ -229,14 +229,14 @@ export default function ProfilePage() {
               </div>
             ) : (
               <div className="flex items-center justify-between">
-                <p className="text-white">{user?.fullName}</p>
+                <p className="text-fg">{user?.fullName}</p>
                 <button
                   onClick={() => {
                     setEditName(user?.fullName ?? "");
                     setIsEditingName(true);
                   }}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-800/50 
-                             text-surface-300 text-sm hover:bg-surface-700/50 hover:text-white transition-all"
+                             text-surface-300 text-sm hover:bg-surface-700/50 hover:text-fg transition-all"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                   Edit
@@ -250,7 +250,7 @@ export default function ProfilePage() {
             <label className="block text-sm font-medium text-surface-400 mb-2">
               Email Address
             </label>
-            <div className="flex items-center gap-3 text-white">
+            <div className="flex items-center gap-3 text-fg">
               <Mail className="w-4 h-4 text-surface-500" />
               <span>{user?.email}</span>
             </div>
@@ -261,7 +261,7 @@ export default function ProfilePage() {
             <label className="block text-sm font-medium text-surface-400 mb-2">
               Role
             </label>
-            <div className="flex items-center gap-3 text-white">
+            <div className="flex items-center gap-3 text-fg">
               <Shield className="w-4 h-4 text-surface-500" />
               <span>{user?.role === "ADMIN" ? "Administrator" : "Employee"}</span>
             </div>
@@ -272,7 +272,7 @@ export default function ProfilePage() {
             <label className="block text-sm font-medium text-surface-400 mb-2">
               Member Since
             </label>
-            <div className="flex items-center gap-3 text-white">
+            <div className="flex items-center gap-3 text-fg">
               <Calendar className="w-4 h-4 text-surface-500" />
               <span className="text-surface-300 text-sm">
                 Information available from your profile
@@ -283,7 +283,7 @@ export default function ProfilePage() {
 
         {/* Security Card */}
         <div className="glass rounded-2xl p-6 animate-slide-up" style={{ animationDelay: "80ms" }}>
-          <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-fg mb-5 flex items-center gap-2">
             <Lock className="w-5 h-5 text-primary-400" />
             Security
           </h2>
@@ -298,7 +298,7 @@ export default function ProfilePage() {
           {!showPasswordForm ? (
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white text-sm font-medium">Password</p>
+                <p className="text-fg text-sm font-medium">Password</p>
                 <p className="text-surface-400 text-sm mt-0.5">
                   Last changed — update regularly for security
                 </p>
@@ -306,7 +306,7 @@ export default function ProfilePage() {
               <button
                 onClick={() => setShowPasswordForm(true)}
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-800/50 
-                           text-surface-300 text-sm font-medium hover:bg-surface-700/50 hover:text-white transition-all"
+                           text-surface-300 text-sm font-medium hover:bg-surface-700/50 hover:text-fg transition-all"
               >
                 <Lock className="w-3.5 h-3.5" />
                 Change
@@ -335,7 +335,7 @@ export default function ProfilePage() {
                   required
                   placeholder="Enter current password"
                   className="w-full px-4 py-3 rounded-xl bg-surface-800/50 border border-surface-700/50 
-                             text-white placeholder:text-surface-500 
+                             text-fg placeholder:text-surface-500 
                              focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                              transition-all duration-200"
                 />
@@ -356,7 +356,7 @@ export default function ProfilePage() {
                   required
                   placeholder="Min. 6 characters"
                   className="w-full px-4 py-3 rounded-xl bg-surface-800/50 border border-surface-700/50 
-                             text-white placeholder:text-surface-500 
+                             text-fg placeholder:text-surface-500 
                              focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                              transition-all duration-200"
                 />
@@ -377,7 +377,7 @@ export default function ProfilePage() {
                   required
                   placeholder="Re-enter new password"
                   className="w-full px-4 py-3 rounded-xl bg-surface-800/50 border border-surface-700/50 
-                             text-white placeholder:text-surface-500 
+                             text-fg placeholder:text-surface-500 
                              focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30
                              transition-all duration-200"
                 />

@@ -137,7 +137,7 @@ export default function SuppliersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Suppliers</h1>
+          <h1 className="text-2xl font-bold text-fg">Suppliers</h1>
           <p className="text-surface-400 text-sm mt-1">
             {suppliers.length} supplier{suppliers.length !== 1 ? "s" : ""} registered
           </p>
@@ -167,7 +167,7 @@ export default function SuppliersPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full sm:w-96 pl-10 pr-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                     text-white placeholder:text-surface-500 text-sm
+                     text-fg placeholder:text-surface-500 text-sm
                      focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
         />
       </div>
@@ -210,7 +210,7 @@ export default function SuppliersPage() {
                     <Truck className="w-5 h-5 text-primary-400" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">
+                    <h3 className="text-sm font-semibold text-fg">
                       {supplier.name}
                     </h3>
                     {supplier.contactPerson && (
@@ -226,7 +226,7 @@ export default function SuppliersPage() {
                 <div className="flex gap-1">
                   <button
                     onClick={() => openEditModal(supplier)}
-                    className="p-1.5 rounded-lg hover:bg-surface-700/50 text-surface-400 hover:text-white transition-all"
+                    className="p-1.5 rounded-lg hover:bg-surface-700/50 text-surface-400 hover:text-fg transition-all"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
@@ -286,7 +286,7 @@ export default function SuppliersPage() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white placeholder:text-surface-500 text-sm
+                         text-fg placeholder:text-surface-500 text-sm
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="TechDistributors India"
             />
@@ -304,7 +304,7 @@ export default function SuppliersPage() {
                   setFormData({ ...formData, contactPerson: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="Ramesh Kumar"
               />
@@ -320,7 +320,7 @@ export default function SuppliersPage() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="contact@supplier.com"
               />
@@ -339,7 +339,7 @@ export default function SuppliersPage() {
                   setFormData({ ...formData, phone: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="+91 98765 43210"
               />
@@ -355,7 +355,7 @@ export default function SuppliersPage() {
                   setFormData({ ...formData, address: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="Full address"
               />

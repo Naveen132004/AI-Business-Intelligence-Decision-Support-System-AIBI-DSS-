@@ -30,15 +30,21 @@ import Modal from "../components/Modal";
 import EmptyState from "../components/EmptyState";
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Salaries: "#6366f1",
-  "Office Supplies": "#10b981",
-  "Software Licenses": "#f59e0b",
-  Marketing: "#ec4899",
-  Utilities: "#06b6d4",
+  Salaries: "var(--chart-1)",
+  "Office Supplies": "var(--chart-3)",
+  "Software Licenses": "var(--chart-2)",
+  Marketing: "var(--chart-5)",
+  Utilities: "var(--chart-6)",
 };
 
-const getColor = (cat: string) =>
-  CATEGORY_COLORS[cat] || "#8b5cf6";
+// Unlisted categories get a stable palette slot from their name, so a
+// category keeps its colour across filters and reloads.
+const getColor = (cat: string) => {
+  if (CATEGORY_COLORS[cat]) return CATEGORY_COLORS[cat];
+  let h = 0;
+  for (const ch of cat) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return `var(--chart-${(h % 6) + 1})`;
+};
 
 const formatCurrency = (val: number) =>
   new Intl.NumberFormat("en-IN", {
@@ -213,7 +219,7 @@ export default function ExpensesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Expenses</h1>
+          <h1 className="text-2xl font-bold text-fg">Expenses</h1>
           <p className="text-surface-400 text-sm mt-1">
             {expenses.length} expense{expenses.length !== 1 ? "s" : ""} recorded
           </p>
@@ -278,10 +284,10 @@ export default function ExpensesPage() {
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
               </div>
               <div>
-                <p className="text-xs text-surface-500 uppercase tracking-wider">
+                <p className="text-xs text-surface-500">
                   {stat.label}
                 </p>
-                <p className="text-lg font-bold text-white mt-0.5">
+                <p className="text-lg font-bold text-fg mt-0.5">
                   {stat.value}
                 </p>
               </div>
@@ -296,7 +302,7 @@ export default function ExpensesPage() {
           className="glass rounded-2xl p-6 mb-6 animate-slide-up"
           style={{ animationDelay: "320ms" }}
         >
-          <h2 className="text-lg font-semibold text-white mb-4">
+          <h2 className="text-lg font-semibold text-fg mb-4">
             Spending by Category
           </h2>
           <ResponsiveContainer width="100%" height={220}>
@@ -308,24 +314,24 @@ export default function ExpensesPage() {
               <XAxis
                 type="number"
                 tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K`}
-                tick={{ fill: "#64748b", fontSize: 11 }}
+                tick={{ fill: "var(--chart-axis)", fontSize: 11 }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
                 type="category"
                 dataKey="category"
-                tick={{ fill: "#e2e8f0", fontSize: 12 }}
+                tick={{ fill: "var(--chart-label)", fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
                 width={130}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#1e293b",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  backgroundColor: "var(--chart-tip-bg)",
+                  border: "1px solid var(--chart-tip-border)",
                   borderRadius: "12px",
-                  color: "#f1f5f9",
+                  color: "var(--chart-tip-fg)",
                 }}
                 formatter={(value) => [formatCurrency(Number(value)), "Amount"]}
               />
@@ -345,7 +351,7 @@ export default function ExpensesPage() {
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
           className="px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                     text-white text-sm appearance-none cursor-pointer
+                     text-fg text-sm appearance-none cursor-pointer
                      focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
         >
           <option value="">All Categories</option>
@@ -360,7 +366,7 @@ export default function ExpensesPage() {
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
           className="px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                     text-white text-sm focus:outline-none focus:border-primary-500
+                     text-fg text-sm focus:outline-none focus:border-primary-500
                      focus:ring-1 focus:ring-primary-500/30 transition-all"
           placeholder="Start date"
         />
@@ -369,7 +375,7 @@ export default function ExpensesPage() {
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
           className="px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                     text-white text-sm focus:outline-none focus:border-primary-500
+                     text-fg text-sm focus:outline-none focus:border-primary-500
                      focus:ring-1 focus:ring-primary-500/30 transition-all"
           placeholder="End date"
         />
@@ -377,7 +383,7 @@ export default function ExpensesPage() {
           <button
             onClick={clearFilters}
             className="px-4 py-2.5 rounded-xl bg-surface-700/30 text-surface-400 text-sm
-                       hover:bg-surface-700/50 hover:text-white transition-all"
+                       hover:bg-surface-700/50 hover:text-fg transition-all"
           >
             Clear filters
           </button>
@@ -413,22 +419,22 @@ export default function ExpensesPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-surface-700/50">
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400">
                     Date
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400">
                     Category
                   </th>
-                  <th className="text-right px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-right px-5 py-3 text-xs font-medium text-surface-400">
                     Amount
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider hidden md:table-cell">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 hidden md:table-cell">
                     Description
                   </th>
-                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider hidden lg:table-cell">
+                  <th className="text-left px-5 py-3 text-xs font-medium text-surface-400 hidden lg:table-cell">
                     Recorded By
                   </th>
-                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400 uppercase tracking-wider">
+                  <th className="text-center px-5 py-3 text-xs font-medium text-surface-400">
                     Actions
                   </th>
                 </tr>
@@ -441,7 +447,7 @@ export default function ExpensesPage() {
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
                     <td className="px-5 py-4">
-                      <span className="text-sm text-white">
+                      <span className="text-sm text-fg">
                         {new Date(expense.expenseDate).toLocaleDateString(
                           "en-IN",
                           { day: "numeric", month: "short", year: "numeric" }
@@ -453,9 +459,9 @@ export default function ExpensesPage() {
                         className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full
                                    text-xs font-medium border"
                         style={{
-                          backgroundColor: `${getColor(expense.category)}15`,
-                          borderColor: `${getColor(expense.category)}30`,
-                          color: getColor(expense.category),
+                          backgroundColor: `color-mix(in srgb, ${getColor(expense.category)} 8%, transparent)`,
+                          borderColor: `color-mix(in srgb, ${getColor(expense.category)} 30%, transparent)`,
+                          color: "var(--text-strong)",
                         }}
                       >
                         <span
@@ -466,7 +472,7 @@ export default function ExpensesPage() {
                       </span>
                     </td>
                     <td className="px-5 py-4 text-right">
-                      <span className="text-sm font-semibold text-white">
+                      <span className="text-sm font-semibold text-fg">
                         {formatCurrency(expense.amount)}
                       </span>
                     </td>
@@ -485,7 +491,7 @@ export default function ExpensesPage() {
                         <button
                           onClick={() => openEditModal(expense)}
                           className="p-2 rounded-lg hover:bg-surface-700/50 text-surface-400
-                                     hover:text-white transition-all"
+                                     hover:text-fg transition-all"
                         >
                           <Pencil className="w-3.5 h-3.5" />
                         </button>
@@ -532,7 +538,7 @@ export default function ExpensesPage() {
                 setFormData({ ...formData, category: e.target.value })
               }
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white placeholder:text-surface-500 text-sm
+                         text-fg placeholder:text-surface-500 text-sm
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="e.g., Salaries, Marketing, Utilities"
             />
@@ -558,7 +564,7 @@ export default function ExpensesPage() {
                   setFormData({ ...formData, amount: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="0.00"
               />
@@ -575,7 +581,7 @@ export default function ExpensesPage() {
                   setFormData({ ...formData, expenseDate: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white text-sm
+                           text-fg text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               />
             </div>
@@ -592,7 +598,7 @@ export default function ExpensesPage() {
                 setFormData({ ...formData, description: e.target.value })
               }
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white placeholder:text-surface-500 text-sm
+                         text-fg placeholder:text-surface-500 text-sm
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="Brief description..."
             />

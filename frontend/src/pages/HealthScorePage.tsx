@@ -46,10 +46,10 @@ function GaugeChart({ score }: { score: number }) {
   };
 
   const getColor = () => {
-    if (score >= 80) return "#10b981"; // green
-    if (score >= 60) return "#6366f1"; // indigo
-    if (score >= 40) return "#f59e0b"; // amber
-    return "#ef4444"; // red
+    if (score >= 80) return "var(--color-success)"; // green
+    if (score >= 60) return "var(--chart-1)"; // indigo
+    if (score >= 40) return "var(--color-warning)"; // amber
+    return "var(--color-danger)"; // red
   };
 
   const getLabel = () => {
@@ -66,7 +66,7 @@ function GaugeChart({ score }: { score: number }) {
         <path
           d={describeArc(startAngle, endAngle)}
           fill="none"
-          stroke="rgba(255,255,255,0.06)"
+          stroke="var(--s-700)"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
@@ -78,7 +78,6 @@ function GaugeChart({ score }: { score: number }) {
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           style={{
-            filter: `drop-shadow(0 0 8px ${getColor()}40)`,
             transition: "all 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         />
@@ -87,10 +86,10 @@ function GaugeChart({ score }: { score: number }) {
           x={cx}
           y={cy - 8}
           textAnchor="middle"
-          fill="white"
-          fontSize="42"
-          fontWeight="bold"
-          fontFamily="Inter, sans-serif"
+          fill="var(--text-strong)"
+          fontSize="44"
+          fontWeight="600"
+          fontFamily="var(--font-display)"
         >
           {Math.round(score)}
         </text>
@@ -101,15 +100,15 @@ function GaugeChart({ score }: { score: number }) {
           fill={getColor()}
           fontSize="14"
           fontWeight="600"
-          fontFamily="Inter, sans-serif"
+          fontFamily="var(--font-sans)"
         >
           {getLabel()}
         </text>
         {/* Min / Max labels */}
-        <text x="18" y="180" fill="#64748b" fontSize="11" fontFamily="Inter, sans-serif">
+        <text x="18" y="180" fill="var(--chart-axis)" fontSize="11" fontFamily="var(--font-sans)">
           0
         </text>
-        <text x="215" y="180" fill="#64748b" fontSize="11" fontFamily="Inter, sans-serif">
+        <text x="215" y="180" fill="var(--chart-axis)" fontSize="11" fontFamily="var(--font-sans)">
           100
         </text>
       </svg>
@@ -133,9 +132,9 @@ function ProgressRing({
   const offset = circumference - (score / 100) * circumference;
 
   const getColor = () => {
-    if (score >= 70) return "#10b981";
-    if (score >= 40) return "#f59e0b";
-    return "#ef4444";
+    if (score >= 70) return "var(--color-success)";
+    if (score >= 40) return "var(--color-warning)";
+    return "var(--color-danger)";
   };
 
   return (
@@ -145,7 +144,7 @@ function ProgressRing({
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="rgba(255,255,255,0.06)"
+        stroke="var(--s-700)"
         strokeWidth={stroke}
       />
       <circle
@@ -165,10 +164,10 @@ function ProgressRing({
         x={size / 2}
         y={size / 2 + 4}
         textAnchor="middle"
-        fill="white"
+        fill="var(--text-strong)"
         fontSize="13"
         fontWeight="bold"
-        fontFamily="Inter, sans-serif"
+        fontFamily="var(--font-sans)"
       >
         {Math.round(score)}
       </text>
@@ -257,7 +256,7 @@ export default function HealthScorePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Business Health</h1>
+          <h1 className="text-2xl font-bold text-fg">Business Health</h1>
           <p className="text-surface-400 text-sm mt-1">
             AI-powered composite business health assessment
           </p>
@@ -296,7 +295,7 @@ export default function HealthScorePage() {
           <div className="w-16 h-16 rounded-2xl bg-primary-500/10 flex items-center justify-center mx-auto mb-4">
             <HeartPulse className="w-8 h-8 text-primary-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-fg mb-2">
             No Health Score Yet
           </h2>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
@@ -361,7 +360,7 @@ export default function HealthScorePage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <Icon className="w-4 h-4 text-primary-400 shrink-0" />
-                          <h3 className="text-sm font-semibold text-white truncate">
+                          <h3 className="text-sm font-semibold text-fg truncate">
                             {comp.name}
                           </h3>
                         </div>
@@ -386,7 +385,7 @@ export default function HealthScorePage() {
           >
             <div className="flex items-center gap-2 mb-5">
               <Lightbulb className="w-5 h-5 text-warning" />
-              <h2 className="text-lg font-semibold text-white">
+              <h2 className="text-lg font-semibold text-fg">
                 Recommendations
               </h2>
             </div>
@@ -404,7 +403,7 @@ export default function HealthScorePage() {
                     >
                       <div className="flex items-center gap-2 mb-2">
                         <span
-                          className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase
+                          className={`text-[10px] px-2 py-0.5 rounded-full font-semibold
                                      ${style.bg} ${style.text} border ${style.border}`}
                         >
                           {rec.priority}
@@ -413,7 +412,7 @@ export default function HealthScorePage() {
                           {rec.category}
                         </span>
                       </div>
-                      <h3 className="text-sm font-semibold text-white mb-1">
+                      <h3 className="text-sm font-semibold text-fg mb-1">
                         {rec.title}
                       </h3>
                       <p className="text-xs text-surface-400 leading-relaxed">

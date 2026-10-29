@@ -1,4 +1,5 @@
 import axios from "axios";
+import { installPreviewMock } from "./previewMock";
 
 const api = axios.create({
   baseURL: "/api",
@@ -6,6 +7,9 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// DEV-only: canned data for design/QA when no backend is running.
+installPreviewMock(api);
 
 // ── Request interceptor: attach JWT token ──
 api.interceptors.request.use(

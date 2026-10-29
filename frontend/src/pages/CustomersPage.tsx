@@ -132,7 +132,7 @@ export default function CustomersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Customers</h1>
+          <h1 className="text-2xl font-bold text-fg">Customers</h1>
           <p className="text-surface-400 text-sm mt-1">
             {customers.length} customer{customers.length !== 1 ? "s" : ""} total
           </p>
@@ -156,7 +156,7 @@ export default function CustomersPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full sm:w-96 pl-10 pr-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                     text-white placeholder:text-surface-500 text-sm
+                     text-fg placeholder:text-surface-500 text-sm
                      focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
         />
       </div>
@@ -196,7 +196,7 @@ export default function CustomersPage() {
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shrink-0">
-                    <span className="text-sm font-bold text-white">
+                    <span className="text-sm font-bold text-fg">
                       {customer.name
                         .split(" ")
                         .map((n) => n[0])
@@ -206,7 +206,7 @@ export default function CustomersPage() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">
+                    <h3 className="text-sm font-semibold text-fg">
                       {customer.name}
                     </h3>
                     <p className="text-xs text-surface-500">
@@ -222,7 +222,7 @@ export default function CustomersPage() {
                 <div className="flex gap-1">
                   <button
                     onClick={() => openEditModal(customer)}
-                    className="p-1.5 rounded-lg hover:bg-surface-700/50 text-surface-400 hover:text-white transition-all"
+                    className="p-1.5 rounded-lg hover:bg-surface-700/50 text-surface-400 hover:text-fg transition-all"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
@@ -282,7 +282,7 @@ export default function CustomersPage() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white placeholder:text-surface-500 text-sm
+                         text-fg placeholder:text-surface-500 text-sm
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="TechCorp Solutions"
             />
@@ -300,7 +300,7 @@ export default function CustomersPage() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="contact@company.com"
               />
@@ -316,7 +316,7 @@ export default function CustomersPage() {
                   setFormData({ ...formData, phone: e.target.value })
                 }
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                           text-white placeholder:text-surface-500 text-sm
+                           text-fg placeholder:text-surface-500 text-sm
                            focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
                 placeholder="+91 98765 43210"
               />
@@ -334,7 +334,7 @@ export default function CustomersPage() {
                 setFormData({ ...formData, address: e.target.value })
               }
               className="w-full px-4 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/50
-                         text-white placeholder:text-surface-500 text-sm resize-none
+                         text-fg placeholder:text-surface-500 text-sm resize-none
                          focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all"
               placeholder="Full address"
             />
