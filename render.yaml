@@ -53,8 +53,23 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.14
-      - key: DATABASE_URL      # postgresql://<user>:<password>@<host>/<db>?sslmode=require
-        sync: false
+      # Same database credentials as the API, copied from it so they're only
+      # entered once (the AI service builds its connection URL from these)
+      - key: DB_URL
+        fromService:
+          type: web
+          name: aibi-dss-api
+          envVarKey: DB_URL
+      - key: DB_USER
+        fromService:
+          type: web
+          name: aibi-dss-api
+          envVarKey: DB_USER
+      - key: DB_PASSWORD
+        fromService:
+          type: web
+          name: aibi-dss-api
+          envVarKey: DB_PASSWORD
       - key: GEMINI_API_KEY
         sync: false
       - key: EMBEDDING_PROVIDER

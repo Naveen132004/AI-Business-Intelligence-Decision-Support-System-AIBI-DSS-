@@ -1,10 +1,18 @@
-from pydantic_settings import BaseSettings
 from typing import List
+from urllib.parse import quote
+
+from pydantic import model_validator
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    # Database
-    DATABASE_URL: str = "postgresql://aibi_user:aibi_secret_2024@localhost:5433/aibi_db"
+    # Database. Either set DATABASE_URL directly, or let it be built from the
+    # backend's settings (DB_URL in JDBC form + DB_USER + DB_PASSWORD) so a
+    # host can share one set of credentials between both services.
+    DATABASE_URL: str = ""
+    DB_URL: str = ""
+    DB_USER: str = ""
+    DB_PASSWORD: str = ""
 
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:8080"]
@@ -33,6 +41,23 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
+    @model_validator(mode="after")
+    def _resolve_database_url(self):
+        if not self.DATABASE_URL:
+            if self.DB_URL.startswith("jdbc:postgresql://"):
+                # jdbc:postgresql://host[:port]/db?params -> postgresql://user:pass@host[:port]/db?params
+                rest = self.DB_URL[len("jdbc:postgresql://"):]
+                creds = ""
+                if self.DB_USER:
+                    creds = quote(self.DB_USER, safe="")
+                    if self.DB_PASSWORD:
+                        creds += ":" + quote(self.DB_PASSWORD, safe="")
+                    creds += "@"
+                self.DATABASE_URL = f"postgresql://{creds}{rest}"
+            else:
+                self.DATABASE_URL = "postgresql://aibi_user:aibi_secret_2024@localhost:5433/aibi_db"
+        return self
 
 
 settings = Settings()
