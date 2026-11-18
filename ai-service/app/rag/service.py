@@ -362,10 +362,10 @@ def ask(db: Session, question: str) -> dict:
     # 3. Vector similarity search using pgvector cosine distance
     search_query = text("""
         SELECT id, source_type, source_id, content,
-               1 - (embedding <=> :embedding::vector) AS similarity
+               1 - (embedding <=> CAST(:embedding AS vector)) AS similarity
         FROM document_chunks
-        WHERE 1 - (embedding <=> :embedding::vector) >= :threshold
-        ORDER BY embedding <=> :embedding::vector
+        WHERE 1 - (embedding <=> CAST(:embedding AS vector)) >= :threshold
+        ORDER BY embedding <=> CAST(:embedding AS vector)
         LIMIT :top_k
     """)
 
